@@ -1,0 +1,42 @@
+Package: neojags
+Type: Package
+Title: Neo-normal Distributions Family for MCMC Models in JAGS
+Version: 0.1.1
+Authors@R: c(person("Achmad Syahrul", "Choir", role=c("aut","cre"), email="madsyair@stis.ac.id"),
+             person("Resi", "Ramadani", role=c("aut","cre"), email="resi.ramadhi@gmail.com"), 
+             person("Nur", "Iriawan", role=c("aut"), email="nur_i@statistika.its.ac.id"),
+             person("S Sifa'ul Khusna Malikhatul", "Mutmainah", role="ctb"),
+             person("Matthew", "Denwood", role="cph"), 
+             person("Martyn", "Plummer", role="cph", 
+             comment="Copyright holder of the code in src/distributions/D*.*, configure.ac, R/runjags_functions.R, and original copyright holder of some modified code where indicated"))
+Description: A JAGS extension module provides neo-normal distributions
+    family including MSNBurr, MSNBurr-IIa, GMSNBurr, Lunetta Exponential Power , Fernandez-Osiewalski-Steel Skew Exponential Power
+    Jones' Skew Exponential Power.
+URL: https://github.com/madsyair/neojags
+BugReports: https://github.com/madsyair/neojags/issues
+License: GPL-2
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+SystemRequirements: JAGS >= 4.3.0 (https://mcmc-jags.sourceforge.io/)
+Depends: R (>= 2.14.0)
+Imports: runjags, stats, utils, rjags,coda
+Suggests: 
+     testthat (>= 3.0.0),
+     knitr,
+     rmarkdown,
+     markdown,
+     spelling
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+Language: en-GB
+NeedsCompilation: yes
+Packaged: 2022-12-02 03:44:38 UTC; polstatstis
+Author: Achmad Syahrul Choir [aut, cre],
+  Resi Ramadani [aut, cre],
+  Nur Iriawan [aut],
+  S Sifa'ul Khusna Malikhatul Mutmainah [ctb],
+  Matthew Denwood [cph],
+  Martyn Plummer [cph] (Copyright holder of the code in
+    src/distributions/D*.*, configure.ac, R/runjags_functions.R, and
+    original copyright holder of some modified code where indicated)
+Maintainer: Achmad Syahrul Choir <madsyair@stis.ac.id>
