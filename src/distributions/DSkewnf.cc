@@ -26,7 +26,7 @@ using namespace std;
 #define MU(par) (*par[0])
 #define TAU(par) (*par[1])
 #define SIGMA(par) (1/sqrt(*par[1]))
-#define KAPPA(par) (*par[2])
+#define ALPHA(par) (*par[2])
 
 #ifndef INCLUDERSCALARDIST
 namespace jags {
@@ -41,7 +41,7 @@ DSkewnf::DSkewnf()
 
 bool DSkewnf::checkParameterValue (vector<double const *> const &par) const
 {
-  return (TAU(par) > 0&&KAPPA(par)>0);
+  return (TAU(par) > 0&&ALPHA(par)>0);
 }
 
 double
@@ -50,14 +50,14 @@ vector<double const *> const &par, bool give_log) const
 {
   double mu=MU(par);
   double sigma=SIGMA(par);
-  double kappa=KAPPA(par);
-  double kappa2 = kappa*kappa;
+  double alpha=ALPHA(par);
+  double alpha2 = alpha*alpha;
   double e =  x-mu;
   double z = e/sigma;
-  double logpdf1 = dnorm((kappa*z),0,1,1);
-  double logpdf2 = dnorm(e/(sigma*kappa),0,1,1);
+  double logpdf1 = dnorm((alpha*z),0,1,1);
+  double logpdf2 = dnorm(e/(sigma*alpha),0,1,1);
   double logpdf = (e < 0)? logpdf1 : logpdf2;
-  logpdf += log(2.0*kappa/(1.0+kappa2)) - log(sigma);
+  logpdf += log(2.0*alpha/(1.0+alpha2)) - log(sigma);
   if(give_log)
     return logpdf;
   else
@@ -72,13 +72,13 @@ DSkewnf::p(double x, vector<double const *> const &par, bool lower, bool give_lo
   double mu=MU(par);
   double sigma=SIGMA(par);
 
-  double kappa=KAPPA(par);
-  double kappa2 = kappa*kappa;
+  double alpha=ALPHA(par);
+  double alpha2 = alpha*alpha;
   double e =  x-mu;
-  double cdf1 = 2.0*pnorm(kappa*e/sigma,0,1 , 1,0);
-  double cdf2 = 1 + 2.0*kappa2*(pnorm(e/(sigma*kappa),  0,1,1,0)-0.5);
+  double cdf1 = 2.0*pnorm(alpha*e/sigma,0,1 , 1,0);
+  double cdf2 = 1 + 2.0*alpha2*(pnorm(e/(sigma*alpha),  0,1,1,0)-0.5);
   double cdf = (e<0)? cdf1 : cdf2;
-  cdf = cdf/(1.0+kappa2);
+  cdf = cdf/(1.0+alpha2);
   cdf = (lower)? cdf : 1.0-cdf;
   cdf = (give_log)?  log(cdf): cdf;
   return cdf;
@@ -91,13 +91,13 @@ DSkewnf::q(double p, vector<double const *> const &par, bool lower,
 {
   double mu=MU(par);
   double sigma=SIGMA(par);
-    double kappa=KAPPA(par);
-  double kappa2 = kappa*kappa;
+    double alpha=ALPHA(par);
+  double alpha2 = alpha*alpha;
   double xp = (log_p)? exp(p): p;
   xp = (lower)? xp: 1-xp;
-  double q1 = mu+(sigma/kappa)*qnorm(xp*(1.0+kappa2)/2,0,1,  1,0);
-  double q2 = mu+(sigma*kappa)*qnorm((xp*(1.0+kappa2)-1.0)/(2.0*kappa2) + 0.5,0,1,  1,0);
-  double q = (xp<(1.0/(1.0+kappa2)))? q1 : q2;
+  double q1 = mu+(sigma/alpha)*qnorm(xp*(1.0+alpha2)/2,0,1,  1,0);
+  double q2 = mu+(sigma*alpha)*qnorm((xp*(1.0+alpha2)-1.0)/(2.0*alpha2) + 0.5,0,1,  1,0);
+  double q = (xp<(1.0/(1.0+alpha2)))? q1 : q2;
   return q;
 
 }

@@ -22,6 +22,7 @@ namespace neojags {
  * x ~ dfskew.t(mu, tau, nu, alpha);
  * f(x) = c/(1/sqrt(tau)) (1+(nu^2 ((x-mu)/(1/sqrt(tau)))^2)/alpha)^(-(alpha+1)/2); x < mu 
  * f(x) = c/(1/sqrt(tau)) (1+((x-mu)/(1/sqrt(tau)))^2/(nu^2 alpha))^(-(alpha+1)/2); x >= mu
+ * where c = 2 nu [(1+nu^2 )B(1/2,tau/2) tau^(1/2) ]^(-1)
  * </pre>
  * @short Fernandes Steel Skew-t distribution
  */
@@ -40,11 +41,8 @@ class DSkewtf : public RScalarDist {
 
   bool checkParameterValue(std::vector<double const *> const &parameters) const;
 };
-
 }  // namespace neojags
-
 #ifndef INCLUDERSCALARDIST
 }  // namespace jags
 #endif  /* INCLUDERSCALARDIST */
-
 #endif /* DSkewtf_H_ */

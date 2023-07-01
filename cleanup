@@ -1,0 +1,36 @@
+# This file is copied and modified from runjags package
+# Copyright (C) 2013 Matthew Denwood <matthewdenwood@mac.com>
+#!/bin/sh
+
+rm -f .DS_Store
+rm -f R/.DS_Store
+rm -f man/.DS_Store
+rm -rf R/.svn
+rm -rf man/.svn
+rm -f src/.DS_Store
+rm -f src/distributions/.DS_Store
+rm -f src/distributions/jags/.DS_Store
+rm -f src/functions/.DS_Store
+
+rm -rf src/.deps
+rm -rf src/distributions/.deps
+rm -rf src/distributions/.libs
+rm -rf src/functions/.deps
+rm -rf src/functions/.libs
+
+rm -f src/Makevars
+rm -f config.*
+rm -rf autom4te.cache
+rm -f config.log
+rm -f config.status
+
+rm -f src/neojags.o
+rm -f src/testneojags.o
+rm -f src/neojags.so
+rm -f src/symbols.rds
+
+rm -f src/distributions/*.o
+rm -f src/functions/*.o
+rm -f src/distributions/jags/*.o
+
+exit 0

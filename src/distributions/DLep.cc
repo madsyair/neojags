@@ -42,7 +42,6 @@ bool DLep::checkParameterValue (vector<double const *> const &par) const
 {
   return (SIGMA(par) > 0&&NU(par)>0);
 }
-
 double
 DLep::d(double x, PDFType type,
 vector<double const *> const &par, bool give_log) const
@@ -100,15 +99,14 @@ DLep::q(double p, vector<double const *> const &par, bool lower,
   }
   zv=2*zv;
  double qg=qgamma(zv,1/v,v,1,0);
- double z=pow(qg,(1/v));
- if (xp<0.5){
-  z=-z;
+ double z;
+  if (xp<0.5){
+  z=-pow(qg,(1/v));
   }
   else{
-  z=z;
+  z=pow(qg,(1/v));
   }
 return(mu+z*sigma);
-
 }
 
 double DLep::r(vector<double const *> const &par, RNG *rng) const

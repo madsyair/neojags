@@ -46,6 +46,7 @@ namespace neojags {
  * x ~ djskew.ep(mu, tau, nu1, nu2);
  * f(x) = c/(1/sqrt(tau))  exp⁡[-|(x-mu)/(1/sqrt(tau))|)^nu1]; x < mu
  * f(x) = c/(1/sqrt(tau))  exp⁡[-|(x-mu)/(1/sqrt(tau))|)^nu2]; x >= mu
+ * where c=[Gamma(1+nu_1^(-1) )+Gamma(1+nu_2^(-1) )]^(-1)
  * </pre>
  * @short Jones'S Skew Exponential Power distribution
  */

@@ -25,26 +25,30 @@ unload.neoJAGSmodule()
 Invisibly returns TRUE if able to (un)load the module, or FALSE otherwise
 }
 \description{
-The neojags package contains a JAGS extension module that provides several additional distributions for use within JAGS (see details below).  This function is a simple wrapper to load this module.  The version of the module supplied within the neojags package can only be used with the rjags package, or with the rjags or rjparallel methods within runjags.  For a standalone JAGS module for use with any JAGS method (or independent JAGS runs) please see:  https://sourceforge.net/projects/runjags/files/paretoprior/
+The neojags package contains a JAGS extension module that provides several additional distributions for use within JAGS (see details below).  This function is a simple wrapper to load this module.  The version of the module supplied within the neojags package can only be used with the rjags package, or with the rjags or rjparallel methods within runjags.  For a standalone JAGS module for use with any JAGS method (or independent JAGS runs) please see: https://sourceforge.net/projects/neojags/
 }
 \details{
 This module provides the following distributions for JAGS:
 
 Jones'S Skew Exponential Power: djskew.ep(mu, tau, nu1, nu2)
 
-For \eqn{x<\mu}{x<\mu}:
+For \eqn{y<\mu}{y<\mu}:
 \deqn{
-  p(x) = \frac{c}{\frac{1}{\sqrt{\tau}}} {exp\left [ -\left | \frac {x - \mu}{1/\sqrt{\tau}} \right |^{\nu_1} \right ]}
+  p(y) = c\sqrt{\tau }\exp \left[ -{{\left| \sqrt{\tau }(y-\mu ) \right|}^{{{\nu }_{1}}}} \right] 
 }{
-  p(x) = c/ {1}/{\sqrt(\tau)} \ exp[-|(x-\mu)/(1/\sqrt(\tau))|^( \nu_1 ) ]
+  p(y) = c\sqrt{\tau }\exp [ -{{| \sqrt{\tau }(y-\mu ) |}^{{{\nu }_{1}}}} ] 
 }
 
-For \eqn{x \ge \mu}{x \ge \mu}:
+For \eqn{y \ge \mu}{y \ge \mu}:
 \deqn{
-  p(x) = \frac{c}{\frac{1}{\sqrt{\tau}}} {exp\left [ -\left | \frac {x - \mu}{1/\sqrt{\tau}} \right |^{\nu_2}  \right ]}
+  p(y) = c\sqrt{\tau }\exp \left[ -{{\left| \sqrt{\tau }(y-\mu ) \right|}^{{{\nu }_{2}}}} \right]
 }{
-  p(x) = c / {1}/{\sqrt(\tau)} exp[|(x-\mu)/(1/\sqrt(\tau))|^\nu_2]
+  p(y) = c\sqrt{\tau }\exp [ -{{| \sqrt{\tau }(y-\mu ) |}^{{{\nu }_{2}}}} ]
 }
+
+where 
+
+\deqn{c = {{\left[ \Gamma \left( 1+{{\nu }_{1}}^{-1} \right)+\Gamma \left( 1+{{\nu }_{2}}^{-1} \right) \right]}^{-1}}}{c = {{\left[ \Gamma \left( 1+{{\nu }_{1}}^{-1} \right)+\Gamma \left( 1+{{\nu }_{2}}^{-1} \right) \right]}^{-1}}}
 
 \deqn{-\infty < \mu < \infty, \tau > 0, \nu_1 > 0, \nu_2 > 0}{-\infty < \mu < \infty, \tau > 0, \nu_1 > 0, \nu_2 > 0}
 
@@ -52,9 +56,15 @@ For \eqn{x \ge \mu}{x \ge \mu}:
 GMSNBurr: dgmsnburr(mu, tau,alpha1,alpha2)
 
 \deqn{
-  p(x) = \frac{{\omega}\left( \alpha_{1},\alpha_{2} \right)}{\frac{1}{\tau}}{\left( \frac{\alpha_{2}}{\alpha_{1}} \right)}^{\alpha_{2}}\frac{{e^{{-\alpha_{2}}{{\omega}}{\left( \alpha_{1},\alpha_{2} \right)}{\left( \frac{{x}-\mu}{\frac{1}{\tau}} \right)}}}{{\left( 1+\frac{\alpha_{2}}{\alpha_{1}}{e^{-{{\omega}}{\left( \alpha_{1},\alpha_{2} \right)}{\left( \frac{{x}-\mu}{\frac{1}{\tau}} \right)}}} \right)^{-\left( \alpha_{1}+\alpha_{2} \right)}}}}{B\left( \alpha_{1},\alpha_{2} \right)}
+  p(y) = \frac{\tau \omega \left( {{\alpha }_{1}},{{\alpha }_{2}} \right)}{B\left( {{\alpha }_{1}},{{\alpha }_{2}} \right)}{{\left( \frac{{{\alpha }_{2}}}{{{\alpha }_{1}}} \right)}^{{{\alpha }_{2}}}}\frac{\exp \left( -{{\alpha }_{2}}\tau \omega \left( {{\alpha }_{1}},{{\alpha }_{2}} \right)\left( y-\mu  \right) \right)}{{{\left( 1+\frac{{{\alpha }_{2}}}{{{\alpha }_{1}}}\exp \left( -\tau \omega \left( {{\alpha }_{1}},{{\alpha }_{2}} \right)\left( y-\mu  \right) \right) \right)}^{({{\alpha }_{1}}+{{\alpha }_{2}})}}}
 }{
-  p(x) = {\omega} (\alpha_1,\alpha_2 )/ {1}/{\tau} (\alpha_2/\alpha_1)^\alpha_2 e^-\alpha_2 {\omega} (\alpha_1,\alpha_2) ({x} - \mu / {1}/{\tau})  ( 1 + \alpha_2/\alpha_1 e^-{\omega} (\alpha_1,\alpha_2) ({x} - \mu/ {{1}/{\tau}})) ^-(\alpha_1+\alpha_2) / B(\alpha_1,\alpha_2)
+  p(y) = (\tau \omega ( {{\alpha }_{1}},{{\alpha }_{2}} )) / (B( {{\alpha }_{1}},{{\alpha }_{2}} )) {{( ({{\alpha }_{2}}) / ({{\alpha }_{1}}))}^{{{\alpha }_{2}}}} (\exp ( -{{\alpha }_{2}}\tau \omega ( {{\alpha }_{1}},{{\alpha }_{2}} \right)\left( y-\mu  \right) \right)) / ({{\left( 1+\frac{{{\alpha }_{2}}}{{{\alpha }_{1}}}\exp \left( -\tau \omega \left( {{\alpha }_{1}},{{\alpha }_{2}} \right)\left( y-\mu  \right) \right) \right)}^{({{\alpha }_{1}}+{{\alpha }_{2}})}})
+}
+
+where 
+
+\deqn{
+{\omega \left( {{\alpha }_{1}},{{\alpha }_{2}} \right)=\frac{B\left( {{\alpha }_{1}},{{\alpha }_{2}} \right)}{\sqrt{2\pi }}{{\left( 1+\frac{{{\alpha }_{2}}}{{{\alpha }_{1}}} \right)}^{\left( {{\alpha }_{1}}+{{\alpha }_{2}} \right)}}{{\left( \frac{{{\alpha }_{2}}}{{{\alpha }_{1}}} \right)}^{-{{\alpha }_{2}}}}}{\omega \left( {{\alpha }_{1}},{{\alpha }_{2}} \right)=\frac{B\left( {{\alpha }_{1}},{{\alpha }_{2}} \right)}{\sqrt{2\pi }}{{\left( 1+\frac{{{\alpha }_{2}}}{{{\alpha }_{1}}} \right)}^{\left( {{\alpha }_{1}}+{{\alpha }_{2}} \right)}}{{\left( \frac{{{\alpha }_{2}}}{{{\alpha }_{1}}} \right)}^{-{{\alpha }_{2}}}}}
 }
 
 \deqn{-\infty < \mu < \infty, \tau > 0, \alpha_1 > 0, \alpha_2 > 0}{-\infty < \mu < \infty, \tau > 0, \alpha_1 > 0, \alpha_2 > 0}
@@ -63,9 +73,15 @@ GMSNBurr: dgmsnburr(mu, tau,alpha1,alpha2)
 MSNBurr: dmsnburr(mu, tau,alpha)
 
 \deqn{
- p(x) = \frac{{\omega}\left(\nu^*, \alpha_1\right)}{\frac{1}{\tau}} \exp \left(-{\omega}\left(\nu^*, \alpha_1\right)\left(\frac{{x}-\mu}{\frac{1}{\tau}}\right)\right) \left.\times\left(1+\frac{\exp \left(-{\omega}\left(\nu^*, \alpha_1\right)\left(\frac{{x}-\mu}{\frac{1}{\tau}}\right)\right)}{\alpha_1}\right)\right)^{-\left(\alpha_1+1\right)} 
+ p(y) = \frac{\tau \omega (\alpha )\exp \left( -\tau \omega (\alpha )(y-\mu ) \right)}{{{\left( 1+\frac{\exp \left( -\tau \omega (\alpha )(y-\mu ) \right)}{\alpha } \right)}^{\left( \alpha +1 \right)}}} 
 }{
- p(x) = {\omega} (\nu^*, \alpha_1)/ {{1}/{\tau}} \exp \left(-{\omega} (\nu^*, \alpha_1) (\frac{{x}-\mu}{{1}/{\tau}})) \times(1+\frac{\exp (-{\omega}(\nu^*, \alpha_1)({{x}-\mu}/{{1}/{\tau}}))}{\alpha_1}))^{-(\alpha_1+1)}
+ p(y) = (\tau \omega (\alpha )\exp \left( -\tau \omega (\alpha )(y-\mu ) \right)) / ({{\left( 1+\frac{\exp \left( -\tau \omega (\alpha )(y-\mu ) \right)}{\alpha } \right)}^{\left( \alpha +1 \right)}})
+}
+
+where 
+
+\deqn{
+{\omega \left( \alpha  \right)=\frac{1}{\sqrt{2\pi }}{{\left( 1+\frac{1}{\alpha } \right)}^{\left( \alpha +1 \right)}}}{\omega \left( \alpha  \right)=\frac{1}{\sqrt{2\pi }}{{\left( 1+\frac{1}{\alpha } \right)}^{\left( \alpha +1 \right)}}}
 }
 
 \deqn{- \infty < \mu < \infty , \tau > 0, \alpha > 0}{-\infty < \mu < \infty , \tau > 0, \alpha > 0}
@@ -74,77 +90,86 @@ MSNBurr: dmsnburr(mu, tau,alpha)
 MSNBurr-IIa: dmsnburr2a(mu, tau, alpha)
 
 \deqn{
- p(x) = \frac{{\omega}\left(\alpha_2\right)}{\frac{1}{\tau}} \exp \left(\frac{{\omega}\left(\alpha_2\right)}{\frac{1}{\tau}}\left({x}-\mu\right)\right)\left(1+\frac{\exp \left(\frac{{\omega}\left(\alpha_2\right)}{\frac{1}{\tau}}\left({x}-\mu\right)\right)}{\alpha_2}\right)^{-\left(\alpha_2+1\right)}
+ p(y) = \frac{\tau \omega (\alpha )\exp \left( \tau \omega (\alpha )\left( y-\mu  \right) \right)}{{{\left( 1+\frac{\exp \left( \tau \omega (\alpha )\left( y-\mu  \right) \right)}{\alpha } \right)}^{\left( \alpha +1 \right)}}}
 }{
- p(x) = {{\omega}(\alpha_2)}/{{1}/{\tau}} \exp ({{\omega}(\alpha_2\right)}/{{1}/{\tau}}({x}-\mu))(1+\frac{\exp ({{\omega}(\alpha_2)}/{{1}/{\tau}}({x}-\mu))}{\alpha_2})^{-(\alpha_2+1)}
+ p(y) = (\tau \omega (\alpha )\exp \left( \tau \omega (\alpha )\left( y-\mu  \right) \right)) / ({{\left( 1+\frac{\exp \left( \tau \omega (\alpha )\left( y-\mu  \right) \right)}{\alpha } \right)}^{\left( \alpha +1 \right)}})
 }
 
 \deqn{-\infty < \mu < \infty , \tau > 0, \alpha > 0}{-\infty < \mu < \infty, \tau > 0, \alpha > 0}
 
 
-Fernandez-Osiewalski-Steel Skew Exponential Power: dfskew.ep(mu, tau, alpha, nu)
+Fernandez-Osiewalski-Steel Skew Exponential Power: dfskew.ep(mu, tau, nu, alpha)
 
 
-For \eqn{x<\mu}{x<\mu}:
+For \eqn{y<\mu}{y<\mu}:
 \deqn{
-  p(x) = \frac{c}{\frac{1}{\sqrt{\tau}}} {exp\left [ -\frac{1}{2}\left | \nu {\left (\frac {x - \mu}{1/\sqrt{\tau}} \right)} \right |^\alpha \right ]}
+  p(y) = c\sqrt{\tau }\exp \left[ -\frac{1}{2}{{\left| \alpha \sqrt{\tau }\left( y-\mu  \right) \right|}^{\nu }} \right] 
 }{
-  p(x) = c/ {1}/{\sqrt(\tau)} \ exp[-1/2|\nu ((x-\mu)/(1/sqrt(\tau)))|^( \alpha ) ]
+  p(y) = c\sqrt{\tau }\exp [ -(1/2) {{| \alpha \sqrt{\tau } ( y-\mu) |}^{\nu }} ] 
 }
 
-For \eqn{x \ge \mu}{x \ge \mu}:
+For \eqn{y \ge \mu}{y \ge \mu}:
 \deqn{
-  p(x) = \frac{c}{\frac{1}{\sqrt{\tau}}} {exp\left [ -\frac{1}{2}\left | \frac {\frac {x - \mu}{1/\sqrt{\tau}}}{\nu} \right |^\alpha \right ]}
+  p(y) = c\sqrt{\tau }\exp \left[ -\frac{1}{2}{{\left| \frac{\sqrt{\tau }\left( y-\mu  \right)}{\alpha } \right|}^{\nu }} \right] 
 }{
-  p(x) = c/ {1}/{\sqrt(\tau)}  \ exp[-1/2|{(x-\mu)/(1/\sqrt(\tau))}/\nu|^( \alpha ) ]
+  p(y) = c\sqrt{\tau }\exp [ -(1/2){{| (\sqrt{\tau }\left( y-\mu  \right)) / (\alpha)  \right|}^{\nu }} \right] 
 }
+
+where 
+
+\deqn{c = \alpha \nu {{\left[ \left( 1+{{\alpha }^{2}} \right){{2}^{1/\tau }}\Gamma (1/\nu ) \right]}^{-1}}}{c = \alpha \nu {{\left[ \left( 1+{{\alpha }^{2}} \right){{2}^{1/\tau }}\Gamma (1/\nu ) \right]}^{-1}}}
 
 \deqn{-\infty < \mu < \infty , \tau > 0 , \nu > 0 , \alpha > 0}{-\infty < \mu < \infty , \tau > 0 , \nu > 0 , \alpha > 0}
  
 
 Fernandes Steel Skew-t: dfskew.t(mu, tau, nu, alpha)
 
-For \eqn{x<\mu}{x<\mu}:
+For \eqn{y<\mu}{y<\mu}:
 \deqn{
-  p(x) = \frac{c}{1/\sqrt{\tau}}\left(1+\frac{\nu^2 {\left (\frac {x - \mu}{1/\sqrt{\tau}}\right)} ^2}{\alpha}\right)^{-(\alpha+1) / 2}
+  p(y) = c\sqrt{\tau }{{\left( 1+\frac{{{\alpha }^{2}}\tau {{(y-\mu )}^{2}}}{\nu } \right)}^{-(\nu +1)/2}}
 }{
-  p(x) = {c}/{1/\sqrt{\tau}}(1+{\nu^2 {((x-\mu)/(1/\sqrt(\tau)))}^2}/{\alpha})^{-(\alpha+1) / 2}
+  p(y) = c\sqrt{\tau }{{( 1+({{\alpha }^{2}}\tau {{(y-\mu )}^{2}}) / (\nu) )}^{-(\nu +1)/2}}
 }
 
-For \eqn{x \ge \mu}{x \ge \mu}:
+For \eqn{y \ge \mu}{y \ge \mu}:
 \deqn{
-  p(x) = \frac{c}{1/\sqrt{\tau}}\left(1+\frac{{\left (\frac {x - \mu}{1/\sqrt{\tau}} \right )}^2}{\nu^2 \alpha}\right)^{-(\alpha+1) / 2}
+  p(y) = c\sqrt{\tau }{{\left( 1+\frac{\tau {{(y-\mu )}^{2}}}{{{\alpha }^{2}}\nu } \right)}^{-(\nu +1)/2}}
 }{
-  p(x) = {c}/{1/\sqrt{\tau}}(1+{{((x-\mu)/(1/\sqrt(\tau)))}^2}/{\nu^2 \alpha})^{-(\alpha+1) / 2}
+  p(y) = c\sqrt{\tau }{{( 1+(\tau {{(y-\mu )}^{2}}) / ({{\alpha }^{2}}\nu ) )}^{-(\nu +1)/2}}
 }
+
+where 
+
+\deqn{c = 2\alpha {{\left[ \left( 1+{{\alpha }^{2}} \right)B(1/2,\nu /2){{\nu }^{1/2}} \right]}^{-1}}}{c = 2\alpha {{\left[ \left( 1+{{\alpha }^{2}} \right)B(1/2,\nu /2){{\nu }^{1/2}} \right]}^{-1}}}
 
 \deqn{-\infty < \mu < \infty , \tau > 0 , \nu > 0 , \alpha > 0}{-\infty < \mu < \infty , \tau > 0 , \nu > 0 , \alpha > 0}
 
-Fernandes Steel Skew Normal: dfskew.norm(mu, tau, nu)
 
-For \eqn{x<\mu}{x<\mu}:
+Fernandes Steel Skew Normal: dfskew.norm(mu, tau, alpha)
+
+For \eqn{y<\mu}{y<\mu}:
 \deqn{
-  p(x) = \frac{c}{1/\sqrt{\tau}} {exp\left [ - \frac{1}{2} {\left(\nu \left( {\frac {x - \mu}{1/\sqrt{\tau}}} \right) \right)}^2 \right ]}
+  p(y) = \frac{2\alpha \sqrt{\tau }}{\sqrt{2\pi }(1+{{\alpha }^{2}})}\text{exp}\left( -\frac{{{\alpha }^{2}}\tau }{2}{{(y-\mu )}^{2}} \right)
 }{
-  p(x) = {c}/{1/\sqrt(\tau)} {exp[-{1}/{2} {(\nu {(x-\mu)/(1/\sqrt(\tau))} )}^2 ]}
+  p(y) = {2\alpha \sqrt{\tau }} / (\sqrt{2\pi }(1+{{\alpha }^{2}}))\text{exp}( -({{\alpha }^{2}}\tau)  / (2){{(y-\mu )}^{2}} )
 }
 
-For \eqn{x \ge \mu}{x \ge \mu}:
+For \eqn{y \ge \mu}{y \ge \mu}:
 \deqn{
-  p(x) = \frac{c}{1/\sqrt{\tau}} {exp\left [  - \frac{1}{2} {\left(\frac {\frac {x - \mu}{1/\sqrt{\tau}}}{\nu} \right)}^2 \right ]}
+  p(y) = \frac{2\alpha \sqrt{\tau }}{\sqrt{2\pi }(1+{{\alpha }^{2}})}\text{exp}\left( -\frac{\tau }{2{{\alpha }^{2}}}{{(y-\mu )}^{2}} \right)
 }{
-  p(x) = {c}/{1/\sqrt(\tau)} {exp[ -{1}/{2} {({(x-\mu)/(1/\sqrt(\tau))}/ \nu )}^2 ]}
+  p(y) = (2\alpha \sqrt{\tau }) / (\sqrt{2\pi }(1+{{\alpha }^{2}}))\text{exp}( - \tau  / (2{{\alpha }^{2}}){{(y-\mu )}^{2}})
 }
 
-\deqn{-\infty < \mu < \infty, \tau > 0, \nu > 0}{-\infty < \mu < \infty, \tau > 0, \nu > 0}
+\deqn{-\infty < \mu < \infty, \tau > 0, \alpha > 0}{-\infty < \mu < \infty, \tau > 0, \alpha > 0}
 
 
 Lunetta Exponential Power : dlep(mu, tau, nu)
 
 \deqn{
-  p(x) = \frac{\sqrt{\tau }}{2{{\nu }^{1/\nu }}\Gamma (1+1/\nu )}{{e}^{-\frac{1}{\nu }{{\left| \sqrt{\tau }(x-\mu ) \right|}^{\nu }}}} 
+  p(y) = \frac{\sqrt{\tau }}{2{{\nu }^{1/\nu }}\Gamma (1+1/\nu )}{{e}^{-\frac{1}{\nu }{{\left| \sqrt{\tau }(y-\mu ) \right|}^{\nu }}}} 
 }{
-  p(x) = {\sqrt{\tau }}/{2{{\nu }^{1/\nu }}\Gamma (1+1/\nu )}{{e}^{-{1}/{\nu }{{| \sqrt{\tau }(x-\mu ) |}^{\nu }}}} 
+  p(y) = {\sqrt{\tau }}/{2{{\nu }^{1/\nu }}\Gamma (1+1/\nu )}{{e}^{-{1}/{\nu }{{| \sqrt{\tau }(y-\mu ) |}^{\nu }}}} 
 }
 
 \deqn{-\infty < \mu < \infty, \tau > 0, \nu > 0}{-\infty < \tau < \infty, \tau > 0, \nu > 0}
@@ -155,12 +180,13 @@ For an easier to read version of these PDF equations, see the userguide vignette
 # Load the module for use with any rjags model:
 available <- load.neojagsmodule(fail=FALSE)
 if(available){
-# A simple model to sample from a Lomax distribution.
+# A simple model to sample from a Jones's Skew Exponential Power Distribution distribution.
 # (Requires the rjags or rjparallel methods)
 m <- "model{
  L ~ djskew.ep(0,1,2,2)
 		}"
-\dontrun{
+\donttest{
+library(runjags)
 neojags::load.neojagsmodule()
 results <- run.jags(m, monitor="L", method="rjags")
 }
@@ -169,14 +195,13 @@ results <- run.jags(m, monitor="L", method="rjags")
 \references{
 Choir, A. S. 2020. The New Neo-Normal Distributions and Their Properties, Doctoral dissertation, Institut Teknologi Sepuluh November.
 
-
 Denwood, M.J. 2016. runjags: An R Package Providing Interface Utilities, Model Templates, Parallel Computing Methods and Additional Distributions for MCMC Models in JAGS. J. Stat. Softw. 71. doi:10.18637/jss.v071.i09.
 
 Fernandez, C., Osiewalski, J., & Steel, M. F. 1995. Modeling and inference with v-spherical distributions. Journal of the American Statistical Association, 90(432), 1331-1340.
 
-Fernández, C., & Steel, M. F. 1998. On Bayesian modeling of fat tails and skewness. Journal of the american statistical association, 93(441), 359-371.
+Fernandez, C., & Steel, M. F. 1998. On Bayesian modeling of fat tails and skewness. Journal of the american statistical association, 93(441), 359-371.
 
-Iriawan, N. 2000). Computationally Intensive Approaches to Inference in NeoNormal Linear Models, Doctoral dissertation, Curtin University of Technology, Perth, Australia.
+Iriawan, N. 2000. Computationally Intensive Approaches to Inference in NeoNormal Linear Models, Doctoral dissertation, Curtin University of Technology, Perth, Australia.
 
 Rigby, R. A., & Stasinopoulos, D. M. 2005. Generalized additive models for location, scale and shape. Journal of the Royal Statistical Society: Series C (Applied Statistics), 54(3), 507-554.
 

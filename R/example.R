@@ -23,7 +23,11 @@
 # You should have received a copy of the GNU General Public License
 # along with runjags  If not, see <http://www.gnu.org/licenses/>.
 example_neojags <- function(...){
-neojagsprivate$modulelocation <- gsub('/$','', file.path(find.package("neojags", quiet = TRUE, lib.loc = .libPaths()), 'libs','x64')) 
+  if(.Platform$OS.type=='unix'){
+    neojagsprivate$modulelocation <- gsub('/$','', file.path(find.package("neojags", quiet = TRUE, lib.loc = .libPaths()), 'libs')) 
+  }else{
+    neojagsprivate$modulelocation <- gsub('/$','', file.path(find.package("neojags", quiet = TRUE, lib.loc = .libPaths()), 'libs', 'x64')) 
+  }
 	X <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 	Y <- c(10.8090157039524, 13.9434806085521, 15.787689123995, 16.9569401422281, 22.0824675991525, 21.2058041795089, 24.403335735507, 27.6592408754351, 28.6753194874265, 28.9965911129099)
 
@@ -43,7 +47,9 @@ neojagsprivate$modulelocation <- gsub('/$','', file.path(find.package("neojags",
 	.RNG.name="base::Super-Duper", .RNG.seed=1)
 	inits2 <- list(alpha=1.3,m=0.1, c=10, precision=1,
 	.RNG.name="base::Wichmann-Hill", .RNG.seed=2)
-  neojags::load.neojagsmodule()
+	if (requireNamespace("neojags", quietly = TRUE)){
+	  neojags::load.neojagsmodule()
+	} 
 	out <- runjags::run.jags(model=model, monitor=c("alpha","m", "c", "precision"),
 	data=data, n.chains=2, inits=list(inits1,inits2),...)
 

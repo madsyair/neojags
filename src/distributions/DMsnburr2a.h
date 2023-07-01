@@ -41,7 +41,6 @@ namespace neojags {
  * x ~ dmsnburr2a(mu, tau,alpha)
  * f(x|mu,tau,alpha)=(omega/(1/tau))*exp(omega*((x-mu)/(1/tau)))*(1+ exp(omega*((x-mu)/(1/tau)))/alpha)^(-alpha+1)
  *  where omega=(1/sqrt(2*pi))*(1+1/alpha)^(alpha+1)
- 
  * </pre>
  * @short MSNBurr-IIa distribution
  */

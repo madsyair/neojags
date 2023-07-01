@@ -29,7 +29,7 @@
 #' @import rjags
 #' @importFrom stats na.omit
 #' @importFrom utils capture.output compareVersion data find flush.console packageVersion packageDescription read.csv read.table
-#' @importFrom runjags findjags testjags findJAGS testJAGS run.jags
+#' @importFrom runjags findjags testjags run.jags 
 #' @importFrom rjags jags.model
 
 .onLoad <- function(libname, pkgname){

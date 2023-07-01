@@ -1,32 +1,18 @@
----
-title: "Neo-Normal Distributions Family for MCMC Models in JAGS"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Neo-Normal Distributions Family for MCMC Models in JAGS}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-```{r, include = FALSE}
+## ---- include = FALSE---------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
 
-```{r setup}
+## ----setup--------------------------------------------------------------------
 if (requireNamespace("neojags", quietly = TRUE)){
 	  neojags::load.neojagsmodule()
 } 
 if (requireNamespace("neojags", quietly = TRUE)){
 	  library(rjags)
 } 
-```
 
-## Generate data
-
-### Create model for JAGS
-```{r}
+## -----------------------------------------------------------------------------
 mod <- "
 model {
   # Likelihood
@@ -35,23 +21,16 @@ model {
   }
 }
 "
-```
-### Compile the model
-```{r}
+
+## -----------------------------------------------------------------------------
 modelv <- jags.model(textConnection(mod), n.chains=1, inits = list(".RNG.name" = "base::Wichmann-Hill",".RNG.seed" = 314159))
-```
-### Generate samples 
-```{r}
+
+## -----------------------------------------------------------------------------
 samplesv <- coda.samples(modelv, variable.names = c("x"), n.iter = 1)
 gen_datav <- (as.data.frame(as.matrix(samplesv)))
 x <- as.numeric(gen_datav[1,])
-```
 
-
-## Parameter Estimation
-
-### Create model for JAGS
-```{r}
+## -----------------------------------------------------------------------------
 model_string <- "
 model {
   # Likelihood
@@ -66,31 +45,20 @@ model {
   nu2 ~ dgamma(10,10)
 }
 "
-```
 
-### Compile the model
-```{r}
+## -----------------------------------------------------------------------------
 model <- jags.model(textConnection(model_string), data = list(x=c(x)),n.chains=2)
-```
 
-### Generate samples from the posterior distribution
-```{r}
+## -----------------------------------------------------------------------------
 samples<- coda.samples(model, variable.names = c("mu", "tau", "nu1", "nu2"), n.iter = 2000)
-```
 
-### Summary Samples
-```{r}
+## -----------------------------------------------------------------------------
 summary(samples)
-```
 
-### Traceplot
-```{r}
+## -----------------------------------------------------------------------------
 traceplot(samples)
-```
 
-
-## Probability Density Function (PDF), Cumulative Density Function (CDF), and Invers CDF (Quantile)
-```{r}
+## -----------------------------------------------------------------------------
 model_string1 <- "
 model {
     d <- djskew.ep(0.5,2,2,2,2)
@@ -98,24 +66,13 @@ model {
 		q <- qjskew.ep(0.5,2,2,2,2)
 }
 "
-```
 
-### Compile the model
-```{r}
+## -----------------------------------------------------------------------------
 model1 <- jags.model(textConnection(model_string1),  n.chains=2)
-```
 
-### Generate samples from the posterior distribution
-```{r}
+## -----------------------------------------------------------------------------
 samples1<- coda.samples(model1, variable.names = c("d","p","q"), n.iter = 2)
-```
 
-### Summary samples
-```{r}
+## -----------------------------------------------------------------------------
 summary(samples1)
-```
-
-
-
-
 

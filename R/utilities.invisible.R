@@ -139,7 +139,7 @@ swcat <- function(...){
     # White space is destroyed by strwrap so preserve \n by splitting on them (and append a ' ' [which is removed by strwrap anyway] to preserve any trailing \n)
     pasted <- unlist(strsplit(paste(pasted,' ',sep=''), '\n'))
     pasted <- strwrap(pasted)
-    cat(paste(pasted, collapse='\n'))
+    warning(paste(pasted, collapse='\n'))
   }
 }
 

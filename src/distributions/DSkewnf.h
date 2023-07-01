@@ -25,7 +25,7 @@
 
 
 #ifndef DSKEWNF_H_
-#define DSKEWNNF_H_
+#define DSKEWNF_H_
 
 // Checks the JAGS version and sets necessary macros:
 #include "../jagsversions.h"
@@ -41,9 +41,9 @@ namespace neojags {
 
 /**
  * <pre>
- * x ~ dfskew.norm(mu, tau, nu);
- * f(x) = c/(1/sqrt(tau))  exp⁡[-1/2 (nu * ((x-mu)/(1/sqrt(tau))))^2 ]; x < mu
- * f(x) = c/(1/sqrt(tau))  exp⁡[-1/2 (((x-mu)/(1/sqrt(tau)))/nu)^2 ]; x >= mu
+ * x ~ dfskew.norm(mu, tau, alpha);
+ * f(x|mu,tau,alpha)=(2 alpha √tau)/(√phi (1+alpha^2 ) )  exp⁡(-(alpha^2  tau)/2 (x-mu)^2 )
+ * f(x|mu,tau,alpha)=(2alpha√tau)/(√phi (1+alpha^2 ) )  exp⁡(-tau/(2alpha^2 ) (x-mu)^2 )
  * </pre>
  * @short Fernandes Steel Skew Normal distribution
  */
@@ -61,11 +61,8 @@ class DSkewnf : public RScalarDist {
 
   bool checkParameterValue(std::vector<double const *> const &parameters) const;
 };
-
 }  // namespace neojags
-
 #ifndef INCLUDERSCALARDIST
 }  // namespace jags
 #endif  /* INCLUDERSCALARDIST */
-
 #endif /* DSkewnf_H_ */
