@@ -1,0 +1,12 @@
+This package is still under development. If you find a bug (especially under Windows), or if you have any criticisms/questions about this package, then please feel free to email the package developer.  I am grateful to  Prof Brian Ripley and Sergey Fedorov for reporting bugs and making suggestions that  I have been developing neojags.  Thanks also to Martyn Plummer for developing JAGS, Matthew Denwood for developing runjags, Mikis Stasinopoulos et.al. for developing gamlss.dist
+
+
+VERSION HISTORY
+
+Version 0.1.2
+
+Bug fixed in configure.ac
+
+Version 0.1.1
+
+First release on CRAN

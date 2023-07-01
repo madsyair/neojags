@@ -9,15 +9,7 @@
 ######################################################################################################
 
 
-The neojags package itself is entirely written in R, but it does contain
-a JAGS module that provides additional distributions that must be
-compiled for your system against a functional JAGS installation.  See
-the platform specific instructions below for how to do this.
-
-If you are unable to compile the C++ code and don't require the distributions
-provided in the JAGS extension module, see the 'Compile-free' instructions 
-at the end of this document.
-
+This package is based on the runjags package.
 
 
 Installation on Windows
@@ -93,15 +85,4 @@ legacy installation instructions given within the rjags package.
 
 
 
-Compile-free
-------------
 
-The standard version of the neojags package includes a JAGS
-extension module providing additional distributions in the Pareto
-family (amongst others).  
-
-If you want to install neojags without the additional JAGS module,
-then you can simply remove the configure(.ac) files and entire src
-directory before running R CMD install neojags.  This does not
-require any C++ compilers, or even for JAGS to be installed on
-your system.
