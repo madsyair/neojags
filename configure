@@ -2091,7 +2091,6 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-R_HOME=/usr/lib/R
 if test -z "${R_HOME}"; then
    as_fn_error $? "\"R_HOME is not defined\"" "$LINENO" 5
 fi
@@ -4802,7 +4801,7 @@ cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1
 _ACAWK
 cat >>"\$ac_tmp/subs1.awk" <<_ACAWK &&
   for (key in S) S_is_set[key] = 1
-  FS = ""
+  FS = " "
 
 }
 {
