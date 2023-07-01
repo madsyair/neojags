@@ -10,7 +10,6 @@
 
 
 AC_INIT([neojags],[0])
-R_HOME=/usr/lib/R
 if test -z "${R_HOME}"; then
    AC_MSG_ERROR("R_HOME is not defined")
 fi
