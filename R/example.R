@@ -23,14 +23,9 @@
 # You should have received a copy of the GNU General Public License
 # along with runjags  If not, see <http://www.gnu.org/licenses/>.
 example_neojags <- function(...){
-  if(.Platform$OS.type=='unix'){
-    neojagsprivate$modulelocation <- gsub('/$','', file.path(find.package("neojags", quiet = TRUE, lib.loc = .libPaths()), 'libs')) 
-  }else{
-    neojagsprivate$modulelocation <- gsub('/$','', file.path(find.package("neojags", quiet = TRUE, lib.loc = .libPaths()), 'libs', 'x64')) 
-  }
-	X <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    neojagsprivate$modulelocation <- gsub('/$','', file.path(find.package("neojags", quiet = TRUE, lib.loc = .libPaths()), 'libs', paste0(.Platform$r_arch, if(.Platform$r_arch!="") "/" else ""))) 
+ 	X <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 	Y <- c(10.8090157039524, 13.9434806085521, 15.787689123995, 16.9569401422281, 22.0824675991525, 21.2058041795089, 24.403335735507, 27.6592408754351, 28.6753194874265, 28.9965911129099)
-
 	model <- "model {
 	for(i in 1 : N){
 		Y[i] ~ dmsnburr(alpha,true.y[i], precision);

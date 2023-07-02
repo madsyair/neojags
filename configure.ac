@@ -1,7 +1,7 @@
 ######################################################################################################
 ###
-###  This file is based on that in the rjags package (version 4-10) with minor modifications
-###  [configure stuff relating to modules removed as runjags installs within the package directory
+###  This file is based on that in runjags package (version 2.2.1-7) that is modified from the rjags package (version 4-10).
+###  [configure stuff relating to modules removed as neojags installs within the package directory
 ###  and minimum JAGS version requirement]
 ###  Matthew Denwood, 24th February 2021
 ###  Original file is Copyright (C) Martyn Plummer, licensed under GPL-2
@@ -10,6 +10,9 @@
 
 
 AC_INIT([neojags],[0])
+
+# Find the compiler and compiler flags used by R.
+: ${R_HOME=`R RHOME`}
 if test -z "${R_HOME}"; then
    AC_MSG_ERROR("R_HOME is not defined")
 fi

@@ -42,13 +42,7 @@ if(.Platform$OS.type != 'windows' || requireNamespace('rjags')){
   
   # Required for nchain etc:
   library("coda")
-  
-  
-  
-  
-  
-  
-  cat("The internal module tests were passed\n")
+    cat("The internal module tests were passed\n")
 }else{
   cat("The internal module tests were skipped (not available on Windows)\n")
 }
