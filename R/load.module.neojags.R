@@ -152,16 +152,16 @@
 #' 
 #' For \eqn{y<\mu}{y<\mu}:
 #' \deqn{
-#'   p(y) = \frac{2\alpha \sqrt{\tau }}{\sqrt{2\pi }(1+{{\alpha }^{2}})}\text{exp}\left( -\frac{{{\alpha }^{2}}\tau }{2}{{(y-\mu )}^{2}} \right)
+#'   p(y) = \frac{2\alpha \sqrt{\tau }}{\sqrt{2\pi }(1+{{\alpha }^{2}})}{\exp}\left( -\frac{{{\alpha }^{2}}\tau }{2}{{(y-\mu )}^{2}} \right)
 #' }{
-#'   p(y) = {2\alpha \sqrt{\tau }} / (\sqrt{2\pi }(1+{{\alpha }^{2}}))\text{exp}( -({{\alpha }^{2}}\tau)  / (2){{(y-\mu )}^{2}} )
+#'   p(y) = {2\alpha \sqrt{\tau }} / (\sqrt{2\pi }(1+{{\alpha }^{2}})){\exp}( -({{\alpha }^{2}}\tau)  / (2){{(y-\mu )}^{2}} )
 #' }
 #' 
 #' For \eqn{y \ge \mu}{y \ge \mu}:
 #' \deqn{
-#'   p(y) = \frac{2\alpha \sqrt{\tau }}{\sqrt{2\pi }(1+{{\alpha }^{2}})}\text{exp}\left( -\frac{\tau }{2{{\alpha }^{2}}}{{(y-\mu )}^{2}} \right)
+#'   p(y) = \frac{2\alpha \sqrt{\tau }}{\sqrt{2\pi }(1+{{\alpha }^{2}})}{\exp}\left( -\frac{\tau }{2{{\alpha }^{2}}}{{(y-\mu )}^{2}} \right)
 #' }{
-#'   p(y) = (2\alpha \sqrt{\tau }) / (\sqrt{2\pi }(1+{{\alpha }^{2}}))\text{exp}( - \tau  / (2{{\alpha }^{2}}){{(y-\mu )}^{2}})
+#'   p(y) = (2\alpha \sqrt{\tau }) / (\sqrt{2\pi }(1+{{\alpha }^{2}})){\exp}( - \tau  / (2{{\alpha }^{2}}){{(y-\mu )}^{2}})
 #' }
 #' 
 #' \deqn{-\infty < \mu < \infty, \tau > 0, \alpha > 0}{-\infty < \mu < \infty, \tau > 0, \alpha > 0}
