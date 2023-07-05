@@ -28,6 +28,7 @@ rm -f src/neojags.o
 rm -f src/testneojags.o
 rm -f src/neojags.so
 rm -f src/symbols.rds
+rm -f src/init.o
 
 rm -f src/distributions/*.o
 rm -f src/functions/*.o
