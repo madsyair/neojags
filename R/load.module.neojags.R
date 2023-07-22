@@ -206,7 +206,7 @@
 #'
 #' @examples
 #' # Load the module for use with any rjags model:
-#' available <- load.neojagsmodule(fail=FALSE)
+#' available <- neojags::load.neojagsmodule(fail=FALSE)
 #' if(available){
 #' # A simple model to sample from a Jones's Skew Exponential Power Distribution distribution.
 #' # (Requires the rjags or rjparallel methods)
