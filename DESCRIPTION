@@ -2,7 +2,7 @@ Package: neojags
 Type: Package
 Title: Neo-Normal Distributions Family for Markov Chain Monte Carlo
         (MCMC) Models in 'JAGS'
-Version: 0.1.3
+Version: 0.1.4
 Authors@R: c(person("Achmad Syahrul", "Choir", role=c("aut","cre"), email="madsyair@stis.ac.id"),
              person("Resi", "Ramadani", role="aut", email="resi.ramadhi@gmail.com"), 
              person("Nur", "Iriawan", role="aut", email="nur_i@statistika.its.ac.id"),
