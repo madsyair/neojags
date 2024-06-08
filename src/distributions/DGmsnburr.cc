@@ -110,8 +110,8 @@ const
   double lomega;
   lomega=-0.5*log(2*MYPI)+lbeta(alpha1,alpha2)-alpha2*(log(alpha2)-log(alpha1))+(alpha1+alpha2)*log1p(alpha2/alpha1);
   omega=exp(lomega);
-  double ep = exp(-omega*(x-mu)/sigma);
-  return pF(ep,2*alpha2,2*alpha1,!lower,give_log);
+  double ep = exp(omega*(x-mu)/sigma);
+  return pF(ep,2*alpha1,2*alpha2,!lower,give_log);
  }
 
 //Computing Invers CDF
