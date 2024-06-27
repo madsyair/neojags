@@ -328,17 +328,17 @@ dynloadmodule <- function(){
 
 	if(inherits(success, 'try-error')){
 
-		rvers <- paste('version ', R.version$major, sep='')
-		if(grepl('mac.binary', .Platform$pkgType, fixed=TRUE)){
+		rvers <- paste('version ', R.version$major, sep = '')
+		if(grepl('mac.binary', .Platform$pkgType, fixed = TRUE)){
 			# A specific error may be because of SL vs Mavericks version on OS X for JAGS version 3.4:
 			mavericks <- grepl('mavericks', .Platform$pkgType)
-			if(mavericks)
+			if( mavericks)
 				rvers <- paste(rvers, ' - Mavericks', sep='')
 			else
-				rvers <- paste(rvers, ' - Snow Leopard', sep='')
+				rvers <- paste(rvers, ' - Snow Leopard', sep = '')
 		}
 
-		return(paste("The neojags dynlib could not be loaded - perhaps the package was not built using the same versions of R [", rvers, "] and JAGS [version ", testjags(silent=TRUE)$JAGS.version, "] as available on this system?", sep=''))
+		return(paste("The neojags dynlib could not be loaded - perhaps the package was not built using the same versions of R [", rvers, "] and JAGS [version ", testjags(silent = TRUE)$JAGS.version, "] as available on this system?", sep = ''))
 
 	}
 
@@ -349,13 +349,13 @@ dynloadmodule <- function(){
 
 dynunloadmodule <- function(){
 
-	if(is.null(neojagsprivate$dynlibname)){
+if(is.null(neojagsprivate$dynlibname)){
 		warning('Unable to load the dynlib as it has not been loaded')
 		invisible(FALSE)
 	}
 	# Find and unload the neojags shared library (only required for these tests and using the rjags call 'load.modue()' so NOT loaded at runtime):
-	slibpath <- system.file("libs", paste(.Platform$r_arch, if(.Platform$r_arch!="") "/" else "", if(.Platform$OS.type=="unix") "neojags.so" else "neojags.dll", sep=""), package="neojags")
-	swcat("Unloading shared library from:  ", slibpath, "\n", sep="")
+	slibpath <- system.file("libs", paste(.Platform$r_arch, if(.Platform$r_arch != "") "/" else "", if(.Platform$OS.type=="unix") "neojags.so" else "neojags.dll", sep=""), package="neojags")
+	swcat("Unloading shared library from:  ", slibpath, "\n", sep = "")
 	success <- try(dyn.unload(slibpath))
 	if(inherits(success, 'try-error'))
 		warning("The internal dynlib could not be unloaded")
