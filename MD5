@@ -6,9 +6,9 @@ cbef3bc03f81fe48d50454f49567c242 *build/vignette.rds
 9034b9e2c02534c21211a6b8f08bfcbb *configure
 6787c2c82881289771d23d730c2b11b7 *configure.ac
 3b48966b09f701cc4db25c76baa0d454 *DESCRIPTION
-528aff7f5219009ec1729cec7a7e34f7 *doc/vignettes.html
-49d8645e1d0b5b63bd886f92a03fee10 *doc/vignettes.R
-7b0aec406d95074ed42ec20a698a0ca9 *doc/vignettes.Rmd
+528aff7f5219009ec1729cec7a7e34f7 *inst/doc/vignettes.html
+49d8645e1d0b5b63bd886f92a03fee10 *inst/doc/vignettes.R
+7b0aec406d95074ed42ec20a698a0ca9 *inst/doc/vignettes.Rmd
 1a5e9b57e24ef9182d8bd28309245b32 *INSTALL
 77d0c725cfd3819665b8e0311ccd0db9 *man/load.neojagsmodule.Rd
 f9eaef30a38e90d9ed4b8879dd17b832 *Meta/vignette.rds
