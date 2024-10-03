@@ -185,7 +185,7 @@
 #' @return Invisibly returns TRUE if able to (un)load the module, or FALSE otherwise
 #' @keywords methods
 #' @seealso
-#' \code{\link{runjags-class}}, \code{\link[rjags]{load.module}}
+#' \code{\link[runjags]{runjags-class}}, \code{\link[rjags]{load.module}}
 #'
 #' @references
 #' Choir, A. S. 2020. The New Neo-Normal Distributions and Their Properties, Doctoral dissertation, Institut Teknologi Sepuluh November.

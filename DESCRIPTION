@@ -35,7 +35,7 @@ Imports: runjags, stats, utils, rjags,coda
 Suggests: testthat (>= 3.0.0), knitr, rmarkdown, markdown, spelling
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-Language: en-GB
+Language: en-US
 NeedsCompilation: yes
 Packaged: 2023-06-28 00:26:10 UTC; user
 Maintainer: Achmad Syahrul Choir <madsyair@stis.ac.id>

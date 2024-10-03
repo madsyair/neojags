@@ -210,6 +210,6 @@ Lunetta, G. 1963. Di una Generalizzazione dello Schema della Curva Normale. Anna
 Rigby, R. A., Stasinopoulos, M. D., Heller, G. Z., & Bastiani, F. D. 2019. Distributions for Modeling Location, Scale, and Shape: Using GAMLSS in R. CLC Press.
 }
 \seealso{
-\code{\link{runjags-class}}, \code{\link[rjags]{load.module}}
+\code{\link[runjags]{runjags-class}}, \code{\link[rjags]{load.module}}
 }
 \keyword{methods}
