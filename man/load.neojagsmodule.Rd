@@ -5,8 +5,7 @@
 \alias{unload.neoJAGSmodule}
 \alias{unload.neojagsmodule}
 \alias{load.neoJAGSmodule}
-\title{Load the internal JAGS module provided by neojags that is
-modified from runjags package}
+\title{Load the internal JAGS module provided by neojags}
 \usage{
 load.neojagsmodule(fail = TRUE, silent = FALSE)
 
@@ -210,6 +209,6 @@ Lunetta, G. 1963. Di una Generalizzazione dello Schema della Curva Normale. Anna
 Rigby, R. A., Stasinopoulos, M. D., Heller, G. Z., & Bastiani, F. D. 2019. Distributions for Modeling Location, Scale, and Shape: Using GAMLSS in R. CLC Press.
 }
 \seealso{
-\code{\link[runjags]{runjags-class}}, \code{\link[rjags]{load.module}}
+\code{\link[rjags]{load.module}}
 }
 \keyword{methods}
