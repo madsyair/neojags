@@ -8,5 +8,5 @@ assign("defaultoptions",list(jagspath=expression(findjags()),method=expression(i
 assign("simfolders", character(0), envir=neojagsprivate)
 assign("failedsimfolders", character(0), envir=neojagsprivate)
 assign("minjagsmajor", 3, envir=neojagsprivate)
-assign("maxjagsmajor", 4, envir=neojagsprivate)
+assign("maxjagsmajor", 5, envir=neojagsprivate)
 assign("warned_version_mismatch", FALSE, envir=neojagsprivate)
