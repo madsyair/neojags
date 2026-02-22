@@ -2,7 +2,7 @@ This package is still under development. If you find a bug (especially under Win
 
 
 VERSION HISTORY
-Version 0.1.5
+Version 0.1.7
 Added compatibility and removed version retrictions for JAGS 5.0.0
 Version 0.1.4
 fixed minor bug
