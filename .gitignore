@@ -1,8 +1,43 @@
+# R user/session files
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+.Renviron
+.Rprofile
+
+# RStudio project file 
+# neojags.Rproj
+
+# Package build artifacts
+*.tar.gz
+*.Rcheck/
+Meta/
+
+# Vignette build outputs
+inst/doc/
+build/
+doc/
+
+# Compiled object files
 src/*.o
 src/*.so
 src/*.dll
-/Meta/
+src/symbols.rds
+src/distributions/*.o
+src/distributions/jags/*.o
+
+# Autoconf generated files 
+config.log
+config.status
+autom4te.cache/
+src/Makevars
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Local R library
+packrat/
+renv/
+renv.lock
