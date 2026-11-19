@@ -33,18 +33,6 @@
 // Checks the JAGS version and sets necessary macros:
 #include "jagsversions.h"
 
-// Trivial function to check which version of JAGS the binary was compiled against:
-extern "C" {
-void getjagsversions(int *forced, int *assumed, int *detected, int *used) // All pointers as everything from R is a vector
-{
-	forced[0] = (int) JAGS_MAJOR_FORCED;
-	assumed[0] = (int) JAGS_MAJOR_ASSUMED;
-	detected[0] = (int) JAGS_MAJOR;
-	used[0] = (int) JAGS_MAJOR_USED;
-}
-}
-// library(neojags); neojags:::dynloadmodule(); .C('getjagsversions', PACKAGE='neojags', forced=integer(1), assumed=integer(1), detected=integer(1), used=integer(1))
-
 
 #ifndef INCLUDERSCALARDIST
 
