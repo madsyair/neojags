@@ -1,3 +1,6 @@
+#' @importFrom utils compareVersion packageVersion
+#' @importFrom runjags runjags.getOption list.format
+
 getRvers <- function(){
 	vers <- R.version$version.string
 	version.string <- gsub("\\(.*?\\)","",vers,perl=FALSE)
