@@ -1,8 +1,10 @@
 ## Submission summary
 
-This is an update of neojags (0.1.7 -> 0.1.8). It fixes the installation
-ERROR on r-devel-windows-x86_64, which appeared after the CRAN Windows
-machines moved to JAGS 5.0.2:
+This is an update of neojags (0.1.7 -> 0.1.8). It fixes the ERROR reported
+on the CRAN check results page for neojags,
+https://cran.r-project.org/web/checks/check_results_neojags.html
+namely the installation failure on r-devel-windows-x86_64, which appeared
+after the CRAN Windows machines moved to JAGS 5.0.2:
 
     cannot find -ljags-4
     ERROR: compilation failed for package 'neojags'
