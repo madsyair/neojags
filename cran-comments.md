@@ -32,7 +32,7 @@ The cause was that src/Makevars.ucrt hard-coded JAGS major version 4.
   - ubuntu-latest, R release and R devel, JAGS 5.0.2 + rjags 5-5
   - ubuntu-latest, R release, JAGS 4.3.x + rjags 4-18
   - windows-latest, R devel, JAGS 5.0.1 + CRAN binary rjags
-  - windows-latest, R release, JAGS 4.3.1 + CRAN binary rjags
+  - windows-latest, R release, JAGS 5.0.1 + CRAN binary rjags
   - macos-latest, R release, JAGS 5.0.0
 * Local: Ubuntu 24.04, R 4.3.3, with JAGS 4.3.2 and with JAGS 5.0.2
 * win-builder: R devel
