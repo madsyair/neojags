@@ -155,10 +155,9 @@
 #'
 #' For an easier to read version of these PDF equations, see the userguide vignette.
 #'
-#' @param fail should the function fail using stop() if the module cannot be loaded?
-#' @param silent if !fail, the function will by default print a diagnostic message if the module cannot be loaded - the silent option suppresses this message.
+#' @param fail deprecated option that is now ignored
+#' @param silent option to suppress messages
 #'
-#' @return Invisibly returns TRUE if able to (un)load the module, or FALSE otherwise
 #' @keywords methods
 #' @seealso
 #'  \code{\link[rjags]{load.module}}
@@ -182,8 +181,7 @@
 #'
 #' @examples
 #' # Load the module for use with any rjags model:
-#' available <- neojags::load.neojagsmodule(fail=FALSE)
-#' if(available){
+#' neojags::load.neojagsmodule()
 #' # A simple model to sample from a Jones's Skew Exponential Power Distribution distribution.
 #' # (Requires the rjags or rjparallel methods)
 #' m <- "model{
@@ -194,76 +192,19 @@
 #' neojags::load.neojagsmodule()
 #' results <- run.jags(m, monitor="L", method="rjags")
 #' }
-#' }
 
 #' @rdname load.neojagsmodule
 #' @export
 load.neojagsmodule <- function(fail=TRUE, silent=FALSE){
-	intfun <- function(){
-	 	# Make sure this is not the module-less version from sourceforge:
-	  	if(neojagsprivate$modulelocation=='')
-	  		return('The internal neojags module is not installed - please reinstall the full version of the package from CRAN, or alternatively you can download a standalone version of the JAGS module from the sourceforge page at http://sourceforge.net/projects/neojags/')
-	 #  neojagsprivate$modulelocation==''
-		# Also makes sure JAGS is installed:
-		if(!loadandcheckrjags(FALSE))
-			return("The rjags package is required to use the internal neojags module - alternatively you can download a standalone version of the JAGS module from the sourceforge page at http://sourceforge.net/projects/neojags/")
-
-		# Check the JAGS major version is as expected:
-		if(packageVersion('rjags')$major < neojagsprivate$minjagsmajor)
-			return(paste('JAGS version ', neojagsprivate$minjagsmajor, '.x.x to ', neojagsprivate$maxjagsmajor, '.x.x is required for this version of the neojags module - please update JAGS and rjags',sep=''))
-		if(packageVersion('rjags')$major > neojagsprivate$maxjagsmajor)
-			return(paste('This version of theneojags module was designed for JAGS version ', neojagsprivate$minjagsmajor, '.x.x to ', neojagsprivate$maxjagsmajor, '.x.x - please update the neojags package', sep=''))
-
-		success <- try(rjags::load.module('neojags',neojagsprivate$modulelocation))
-
-		if(inherits(success, 'try-error')){
-
-			rvers <- paste('version ', R.version$major, sep='')
-			if(grepl('mac.binary', .Platform$pkgType, fixed=TRUE)){
-				# A specific error may be because of SL vs Mavericks version on OS X for JAGS version 3.4:
-				mavericks <- grepl('mavericks', .Platform$pkgType)
-				if(mavericks)
-					rvers <- paste(rvers, ' - Mavericks', sep='')
-				else
-					rvers <- paste(rvers, ' - Snow Leopard', sep='')
-			}
-
-			return(paste("The internal neojags module could not be loaded - perhaps the package was not built using the same versions of R [", rvers, "] and JAGS [version ", testjags(silent=TRUE)$JAGS.version, "] as available on this system?", sep=''))
-
-		}
-		return(TRUE)
-	}
-
-	retval <- intfun()
-
-	if(retval==TRUE){
-		invisible(TRUE)
-	}else{
-		if(fail)
-			stop(retval)
-
-		if(!silent)
-			swcat(retval,'\n',sep='')
-
-		invisible(FALSE)
-	}
+  load.pkg.module(.jags_pkg_env$pkgname, .jags_pkg_env$libname, .jags_pkg_env$pkg_compile_flags, quiet=silent)
+	invisible(TRUE)
 }
 
 #' @rdname load.neojagsmodule
 #' @export
-unload.neojagsmodule <- function(){
-
-	if(!loadandcheckrjags(FALSE))
-		stop("The rjags package is required to use the internal neojags module - alternatively you can download a standalone version of the JAGS module from the sourceforge page at http://sourceforge.net/projects/neojags/")
-
-	suppressWarnings(success <- try(rjags::unload.module('neojags')))
-
-	if(inherits(success, 'try-error')){
-		warning("There was a problem unloading the internal neojags module - if you installed this package from CRAN, please file a bug report to the package author")
-		invisible(FALSE)
-	}else{
-		invisible(TRUE)
-	}
+unload.neojagsmodule <- function(silent=FALSE){
+  unload.module(.jags_pkg_env$pkgname, quiet=silent)
+  invisible(TRUE)
 }
 
 #' @rdname load.neojagsmodule
@@ -278,73 +219,9 @@ unload.neoJAGSmodule <- unload.neojagsmodule
 # These utility functions are NOT exported, and are primarily used for unit testing.
 # Availability and/or operation of these functions may change without warning.
 
-dynloadmodule <- function(){
-
-	# Sets environmental variables we need for Windows:
-	if(.Platform$OS.type=='windows'){
-		if(!loadandcheckrjags(FALSE))
-			stop('The rjags package is required to load the internal dynlib')
-	}
-
-	if(neojagsprivate$modulelocation==''){
-		warning('The neojags module has not been installed with this version of the package - try again using the CRAN binary')
-		invisible(FALSE)
-	}
-
-	# Check the JAGS major version is as expected:
-	if(testjags(silent=TRUE)$JAGS.major < neojagsprivate$minjagsmajor)
-		return(paste('JAGS version ', neojagsprivate$minjagsmajor, '.x.x to ', neojagsprivate$maxjagsmajor, '.x.x is required for this version of the neojags module - please update JAGS and rjags',sep=''))
-	if(testjags(silent=TRUE)$JAGS.major > neojagsprivate$maxjagsmajor)
-		return(paste('This version of the neojags module was designed for JAGS version ', neojagsprivate$minjagsmajor, '.x.x to ', neojagsprivate$maxjagsmajor, '.x.x - please update the neojags package', sep=''))
-
-	# Find and load the neojags shared library (only required for these tests and using the rjags call 'load.modue()' so NOT loaded at runtime):
-	slibpath <- file.path(neojagsprivate$modulelocation, paste('neojags', .Platform$dynlib.ext, sep=''))
-	swcat("Loading shared library from:  ", slibpath, "\n", sep="")
-	success <- try(dyn.load(slibpath))
-
-	if(inherits(success, 'try-error')){
-
-		rvers <- paste('version ', R.version$major, sep = '')
-		if(grepl('mac.binary', .Platform$pkgType, fixed = TRUE)){
-			# A specific error may be because of SL vs Mavericks version on OS X for JAGS version 3.4:
-			mavericks <- grepl('mavericks', .Platform$pkgType)
-			if( mavericks)
-				rvers <- paste(rvers, ' - Mavericks', sep='')
-			else
-				rvers <- paste(rvers, ' - Snow Leopard', sep = '')
-		}
-
-		return(paste("The neojags dynlib could not be loaded - perhaps the package was not built using the same versions of R [", rvers, "] and JAGS [version ", testjags(silent = TRUE)$JAGS.version, "] as available on this system?", sep = ''))
-
-	}
-
-	neojagsprivate$dynlibname <- success
-	invisible(TRUE)
-
-}
-
-dynunloadmodule <- function(){
-
-if(is.null(neojagsprivate$dynlibname)){
-		warning('Unable to load the dynlib as it has not been loaded')
-		invisible(FALSE)
-	}
-	# Find and unload the neojags shared library (only required for these tests and using the rjags call 'load.modue()' so NOT loaded at runtime):
-	slibpath <- system.file("libs", paste(.Platform$r_arch, if(.Platform$r_arch != "") "/" else "", if(.Platform$OS.type=="unix") "neojags.so" else "neojags.dll", sep=""), package="neojags")
-	swcat("Unloading shared library from:  ", slibpath, "\n", sep = "")
-	success <- try(dyn.unload(slibpath))
-	if(inherits(success, 'try-error'))
-		warning("The internal dynlib could not be unloaded")
-
-	neojagsprivate$dynlibname <- NULL
-	invisible(TRUE)
-}
-
 useneojagsmodule <- function(distribution, funtype, parameters, x, uselog=FALSE, lower=TRUE){
 
-	if(is.null(neojagsprivate$dynlibname)){
-		stopifnot(dynloadmodule())
-	}
+	stopifnot(.jags_pkg_env$dyn_loaded)
 
 	if(!is.character(distribution)) stop("The distribution type must be one of par1, par2, par3, par4, lomax, mouch, genpar or halfcauchy")
 	disttype <- switch(distribution, par1=1, par2=2, par3=3, par4=4, lomax=5, mouch=6, genpar=7, hcauchy=8, halfcauchy=8, 0)

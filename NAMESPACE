@@ -4,24 +4,18 @@ export(load.neoJAGSmodule)
 export(load.neojagsmodule)
 export(unload.neoJAGSmodule)
 export(unload.neojagsmodule)
-import(coda)
-import(rjags)
-import(runjags)
-import(stats)
-import(utils)
-importFrom(rjags,jags.model)
-importFrom(runjags,findjags)
-importFrom(runjags,new_unique)
-importFrom(runjags,run.jags)
-importFrom(runjags,testjags)
-importFrom(runjags,timestring)
-importFrom(stats,na.omit)
-importFrom(utils,capture.output)
-importFrom(utils,compareVersion)
-importFrom(utils,data)
-importFrom(utils,find)
-importFrom(utils,flush.console)
-importFrom(utils,packageDescription)
-importFrom(utils,packageVersion)
-importFrom(utils,read.csv)
-importFrom(utils,read.table)
+importFrom(rjags,
+  list.modules,
+  load.pkg.module,
+  unload.module
+)
+importFrom(runjags,
+  list.format,
+  new_unique,
+  runjags.getOption,
+  timestring
+)
+importFrom(utils,
+  compareVersion,
+  packageVersion
+)

@@ -9,19 +9,16 @@
 \usage{
 load.neojagsmodule(fail = TRUE, silent = FALSE)
 
-unload.neojagsmodule()
+unload.neojagsmodule(silent = FALSE)
 
 load.neoJAGSmodule(fail = TRUE, silent = FALSE)
 
-unload.neoJAGSmodule()
+unload.neoJAGSmodule(silent = FALSE)
 }
 \arguments{
-\item{fail}{should the function fail using stop() if the module cannot be loaded?}
+\item{fail}{deprecated option that is now ignored}
 
-\item{silent}{if !fail, the function will by default print a diagnostic message if the module cannot be loaded - the silent option suppresses this message.}
-}
-\value{
-Invisibly returns TRUE if able to (un)load the module, or FALSE otherwise
+\item{silent}{option to suppress messages}
 }
 \description{
 The neojags package contains a JAGS extension module that provides several additional distributions for use within JAGS (see details below).  This function is a simple wrapper to load this module.  The version of the module supplied within the neojags package can only be used with the rjags package, or with the rjags or rjparallel methods within runjags.  For a standalone JAGS module for use with any JAGS method (or independent JAGS runs) please see: https://sourceforge.net/projects/neojags/
@@ -177,8 +174,7 @@ For an easier to read version of these PDF equations, see the userguide vignette
 }
 \examples{
 # Load the module for use with any rjags model:
-available <- neojags::load.neojagsmodule(fail=FALSE)
-if(available){
+neojags::load.neojagsmodule()
 # A simple model to sample from a Jones's Skew Exponential Power Distribution distribution.
 # (Requires the rjags or rjparallel methods)
 m <- "model{
@@ -188,7 +184,6 @@ m <- "model{
 library(runjags)
 neojags::load.neojagsmodule()
 results <- run.jags(m, monitor="L", method="rjags")
-}
 }
 }
 \references{
