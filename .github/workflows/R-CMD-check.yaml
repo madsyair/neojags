@@ -6,8 +6,8 @@
 #
 #   - ubuntu / JAGS 5 : JAGS 5.0.2 built from source + rjags/runjags from CRAN source
 #   - ubuntu / JAGS 4 : JAGS 4.3.x from apt + rjags 4-18 (last rjags for JAGS 4)
-#   - windows         : CRAN binaries, with the JAGS major version that CRAN's rjags
-#                       binary for that R version expects (R-devel: JAGS 5, R-release: JAGS 4)
+#   - windows / JAGS 5: JAGS 5.0.1 installer + CRAN binaries (CRAN's Windows rjags
+#                       binaries for R-release and R-devel are both rjags 5 since Nov 2026)
 #   - macos / JAGS 5  : JAGS 5.0.0 universal installer + CRAN binaries
 name: R-CMD-check
 
@@ -36,7 +36,7 @@ jobs:
           - {os: ubuntu-latest,  r: 'release', jags: '5.0.2'}
           - {os: ubuntu-latest,  r: 'devel',   jags: '5.0.2'}
           - {os: ubuntu-latest,  r: 'release', jags: '4'}
-          - {os: windows-latest, r: 'release', jags: '4.3.1'}
+          - {os: windows-latest, r: 'release', jags: '5.0.1'}
           - {os: windows-latest, r: 'devel',   jags: '5.0.1'}
           - {os: macos-latest,   r: 'release', jags: '5.0.0'}
 
