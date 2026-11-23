@@ -6,3 +6,4 @@
 ^src/.*\.o$
 ^src/.*\.(so|dll)$
 ^src/symbols\.rds$
+^cran-comments\.md$
