@@ -41,3 +41,6 @@ Thumbs.db
 packrat/
 renv/
 renv.lock
+
+# CRAN tarball metadata (added by CRAN, never part of the source)
+MD5
