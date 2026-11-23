@@ -118,6 +118,17 @@ jobs:
           sudo installer -pkg /tmp/JAGS.pkg -target /
           ls /usr/local/lib | grep -i -E "jags|jrmath"
 
+      # rjags 5 refuses to build against JAGS 4, so the JAGS 4 job needs rjags 4-18
+      # in place *before* the dependency step (which then leaves it alone).
+      - name: Install rjags 4-18 + runjags from source (Linux, JAGS 4)
+        if: runner.os == 'Linux' && matrix.config.jags == '4'
+        run: |
+          install.packages(c("coda", "lattice"))
+          install.packages("https://cloud.r-project.org/src/contrib/Archive/rjags/rjags_4-18.tar.gz",
+                           repos = NULL, type = "source")
+          install.packages("runjags", repos = "https://cloud.r-project.org", type = "source")
+        shell: Rscript {0}
+
       # The R library cache must be separate for each JAGS version: an rjags
       # compiled against one JAGS must never be restored into a job using another.
       - uses: r-lib/actions/setup-r-dependencies@v2
@@ -125,6 +136,7 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
           cache-version: jags-${{ matrix.config.jags }}
+          upgrade: 'FALSE'
 
       # ------------------------------------------- rjags linked to that JAGS
       # On Linux rjags/runjags are (re)compiled from CRAN *source* after the
@@ -135,15 +147,6 @@ jobs:
         run: |
           install.packages(c("coda", "lattice"))
           install.packages(c("rjags", "runjags"), repos = "https://cloud.r-project.org", type = "source")
-        shell: Rscript {0}
-
-      - name: Install rjags 4-18 + runjags from source (Linux, JAGS 4)
-        if: runner.os == 'Linux' && matrix.config.jags == '4'
-        run: |
-          install.packages(c("coda", "lattice"))
-          install.packages("https://cloud.r-project.org/src/contrib/Archive/rjags/rjags_4-18.tar.gz",
-                           repos = NULL, type = "source")
-          install.packages("runjags", repos = "https://cloud.r-project.org", type = "source")
         shell: Rscript {0}
 
 
