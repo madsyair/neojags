@@ -3,3 +3,6 @@
 ^doc$
 ^Meta$
 ^.github$
+^src/.*\.o$
+^src/.*\.(so|dll)$
+^src/symbols\.rds$
