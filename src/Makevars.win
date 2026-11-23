@@ -22,7 +22,10 @@ JAGS_LIBS := $(shell "$(R_HOME)/bin$(R_ARCH_BIN)/Rscript" -e "rjags::pkg.compile
 JAGS_CXXFLAGS := $(shell "$(R_HOME)/bin$(R_ARCH_BIN)/Rscript" -e "rjags::pkg.compile.flags('CXXFLAGS')")
 JAGS_CPPFLAGS := $(shell "$(R_HOME)/bin$(R_ARCH_BIN)/Rscript" -e "rjags::pkg.compile.flags('CPPFLAGS')")
 
-PKG_LIBS = $(JAGS_LIBS)
+## neojags also calls the JAGS maths library (JRmath.h: jags_lbeta, jags_pgamma, ...),
+## which lives in libjrmath-0.dll rather than libjags-<major>.dll, so it must be linked
+## explicitly (a Windows DLL cannot have unresolved symbols at link time):
+PKG_LIBS = $(JAGS_LIBS) -ljrmath-0
 PKG_CXXFLAGS = $(JAGS_CXXFLAGS)
 PKG_CPPFLAGS = $(JAGS_CPPFLAGS)
 

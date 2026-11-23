@@ -1,0 +1,102 @@
+# Continuous delivery for neojags.
+#
+# Pushing a tag such as v0.1.8 (matching Version: in DESCRIPTION):
+#   1. builds the source tarball neojags_<version>.tar.gz against JAGS 5,
+#   2. runs R CMD check --as-cran on that exact tarball,
+#   3. creates a GitHub Release with the tarball and the check log attached.
+#
+# The tarball is what you upload to CRAN (https://cran.r-project.org/submit.html).
+# Submission to CRAN itself stays manual on purpose.
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-check-release:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      JAGS_VERSION: '5.0.2'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          use-public-rspm: true
+
+      - name: Build JAGS from source
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gfortran liblapack-dev libblas-dev pkg-config
+          curl -fsSL -o /tmp/JAGS.tar.gz \
+            "https://downloads.sourceforge.net/project/mcmc-jags/JAGS/5.x/Source/JAGS-${JAGS_VERSION}.tar.gz"
+          mkdir -p /tmp/jags && tar xzf /tmp/JAGS.tar.gz -C /tmp/jags --strip-components=1
+          cd /tmp/jags && ./configure --prefix=/usr/local && make -j4 && sudo make install && sudo ldconfig
+          echo "PKG_CONFIG_PATH=/usr/local/lib/pkgconfig" >> "$GITHUB_ENV"
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          needs: check
+          cache-version: release-jags-${{ env.JAGS_VERSION }}
+
+      - name: Install rjags + runjags from source (linked to this JAGS)
+        run: |
+          install.packages(c("rjags", "runjags"), repos = "https://cloud.r-project.org", type = "source")
+          library(rjags); print(jags.version())
+        shell: Rscript {0}
+
+      - name: Check tag matches DESCRIPTION version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          PKG_VERSION=$(grep -E '^Version:' DESCRIPTION | awk '{print $2}')
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          echo "DESCRIPTION: $PKG_VERSION  tag: $TAG_VERSION"
+          test "$PKG_VERSION" = "$TAG_VERSION"
+
+      - name: R CMD build
+        run: |
+          mkdir -p dist && cd dist
+          R CMD build ..
+          ls -l
+          echo "TARBALL=$(ls neojags_*.tar.gz)" >> "$GITHUB_ENV"
+
+      - name: R CMD check --as-cran
+        working-directory: dist
+        env:
+          _R_CHECK_CRAN_INCOMING_REMOTE_: false
+        run: |
+          R CMD check --as-cran --no-manual "$TARBALL" | tee check.log
+          if grep -qE "^Status: .*(ERROR|WARNING)" check.log; then
+            echo "::error::R CMD check reported an ERROR or WARNING"; exit 1
+          fi
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: neojags-release
+          path: |
+            dist/*.tar.gz
+            dist/check.log
+            dist/neojags.Rcheck/00check.log
+            dist/neojags.Rcheck/00install.out
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            "dist/$TARBALL" dist/check.log \
+            --title "neojags ${GITHUB_REF_NAME#v}" \
+            --notes "Source tarball built and checked (R CMD check --as-cran) against JAGS ${JAGS_VERSION}. See CHANGELOG for changes."

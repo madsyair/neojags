@@ -16,7 +16,9 @@
 #  A copy of the GNU General Public License is available at
 #  http://www.r-project.org/Licenses/
 
-PKG_LIBS = `"$(R_HOME)/bin$(R_ARCH_BIN)/Rscript" -e "rjags::pkg.compile.flags('LIBS')"`
+## neojags also calls the JAGS maths library (JRmath.h: jags_lbeta, jags_pgamma, ...),
+## which lives in libjrmath rather than libjags, so it must be linked explicitly:
+PKG_LIBS = `"$(R_HOME)/bin$(R_ARCH_BIN)/Rscript" -e "rjags::pkg.compile.flags('LIBS')"` -ljrmath
 PKG_CXXFLAGS = `"$(R_HOME)/bin$(R_ARCH_BIN)/Rscript" -e "rjags::pkg.compile.flags('CXXFLAGS')"`
 PKG_CPPFLAGS = `"$(R_HOME)/bin$(R_ARCH_BIN)/Rscript" -e "rjags::pkg.compile.flags('CPPFLAGS')"`
 

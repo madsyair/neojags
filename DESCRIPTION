@@ -36,7 +36,6 @@ Config/testthat/edition: 3
 VignetteBuilder: knitr
 Language: en-US
 NeedsCompilation: yes
-Packaged: 2023-06-28 00:26:10 UTC; user
 Maintainer: Achmad Syahrul Choir <madsyair@stis.ac.id>
 Author: Achmad Syahrul Choir [aut, cre],
   Resi Ramadani [aut],
@@ -46,6 +45,4 @@ Author: Achmad Syahrul Choir [aut, cre],
   Martyn Plummer [cph] (Copyright holder of the code in
     src/distributions/D*.*, configure.ac, R/runjags_functions.R, and
     original copyright holder of some modified code where indicated)
-Repository: CRAN
-Date/Publication: 2023-06-29 14:40:05 UTC
 Config/roxygen2/version: 8.1.1
