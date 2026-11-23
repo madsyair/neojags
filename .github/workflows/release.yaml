@@ -44,16 +44,16 @@ jobs:
           cd /tmp/jags && ./configure --prefix=/usr/local && make -j4 && sudo make install && sudo ldconfig
           echo "PKG_CONFIG_PATH=/usr/local/lib/pkgconfig" >> "$GITHUB_ENV"
 
-      - name: Install rjags + runjags from source
-        run: |
-          install.packages(c("coda", "lattice"))
-          install.packages(c("rjags", "runjags"), repos = "https://cloud.r-project.org", type = "source")
-        shell: Rscript {0}
-
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           needs: check
-          upgrade: 'FALSE'
+          cache-version: release-jags-${{ env.JAGS_VERSION }}
+
+      - name: Install rjags + runjags from source (linked to this JAGS)
+        run: |
+          install.packages(c("rjags", "runjags"), repos = "https://cloud.r-project.org", type = "source")
+          library(rjags); print(jags.version())
+        shell: Rscript {0}
 
       - name: Check tag matches DESCRIPTION version
         if: startsWith(github.ref, 'refs/tags/')

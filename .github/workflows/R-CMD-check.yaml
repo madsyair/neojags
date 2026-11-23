@@ -6,7 +6,8 @@
 #
 #   - ubuntu / JAGS 5 : JAGS 5.0.2 built from source + rjags/runjags from CRAN source
 #   - ubuntu / JAGS 4 : JAGS 4.3.x from apt + rjags 4-18 (last rjags for JAGS 4)
-#   - windows / JAGS 5: JAGS 5.0.1 installer + CRAN binaries (mirrors CRAN's setup)
+#   - windows         : CRAN binaries, with the JAGS major version that CRAN's rjags
+#                       binary for that R version expects (R-devel: JAGS 5, R-release: JAGS 4)
 #   - macos / JAGS 5  : JAGS 5.0.0 universal installer + CRAN binaries
 name: R-CMD-check
 
@@ -35,7 +36,7 @@ jobs:
           - {os: ubuntu-latest,  r: 'release', jags: '5.0.2'}
           - {os: ubuntu-latest,  r: 'devel',   jags: '5.0.2'}
           - {os: ubuntu-latest,  r: 'release', jags: '4'}
-          - {os: windows-latest, r: 'release', jags: '5.0.1'}
+          - {os: windows-latest, r: 'release', jags: '4.3.1'}
           - {os: windows-latest, r: 'devel',   jags: '5.0.1'}
           - {os: macos-latest,   r: 'release', jags: '5.0.0'}
 
@@ -91,12 +92,16 @@ jobs:
           echo "PKG_CONFIG_PATH=/usr/local/lib/pkgconfig" >> "$GITHUB_ENV"
           PKG_CONFIG_PATH=/usr/local/lib/pkgconfig pkg-config --modversion jags
 
-      - name: Install JAGS 5 (Windows)
+      - name: Install JAGS (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           $v = "${{ matrix.config.jags }}"
-          $url = "https://downloads.sourceforge.net/project/mcmc-jags/JAGS/5.x/Windows/Rtools45/JAGS-$v.exe"
+          if ($v.StartsWith("4")) {
+            $url = "https://downloads.sourceforge.net/project/mcmc-jags/JAGS/4.x/Windows/JAGS-$v.exe"
+          } else {
+            $url = "https://downloads.sourceforge.net/project/mcmc-jags/JAGS/5.x/Windows/Rtools45/JAGS-$v.exe"
+          }
           curl.exe -fsSL -o "$env:RUNNER_TEMP\JAGS.exe" $url
           Start-Process -FilePath "$env:RUNNER_TEMP\JAGS.exe" -ArgumentList "/S" -Wait
           $root = "C:/Program Files/JAGS/JAGS-$v"
@@ -113,9 +118,18 @@ jobs:
           sudo installer -pkg /tmp/JAGS.pkg -target /
           ls /usr/local/lib | grep -i -E "jags|jrmath"
 
+      # The R library cache must be separate for each JAGS version: an rjags
+      # compiled against one JAGS must never be restored into a job using another.
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+          cache-version: jags-${{ matrix.config.jags }}
+
       # ------------------------------------------- rjags linked to that JAGS
-      # On Linux rjags/runjags are compiled from CRAN *source* (P3M binaries are
-      # linked to whatever JAGS the binary builder had).
+      # On Linux rjags/runjags are (re)compiled from CRAN *source* after the
+      # dependency step, because P3M binaries are linked to whatever JAGS the
+      # binary builder had.
       - name: Install rjags + runjags from source (Linux, JAGS 5)
         if: runner.os == 'Linux' && matrix.config.jags != '4'
         run: |
@@ -132,11 +146,6 @@ jobs:
           install.packages("runjags", repos = "https://cloud.r-project.org", type = "source")
         shell: Rscript {0}
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::rcmdcheck
-          needs: check
-          upgrade: 'FALSE'
 
       - name: Show JAGS / rjags configuration
         run: |
