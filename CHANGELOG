@@ -2,6 +2,10 @@ This package is still under development. If you find a bug (especially under Win
 
 
 VERSION HISTORY
+Version 0.1.8
+Compile and link flags are now taken from rjags::pkg.compile.flags(), so neojags is always built against the same JAGS (4.x or 5.x) as rjags; this fixes the installation failure on Windows with JAGS 5 (-ljags-4 not found). Thanks to Matt Denwood
+The JAGS maths library is now linked explicitly (-ljrmath on Unix, -ljrmath-0 on Windows), since the distributions call JRmath functions such as jags_lbeta and jags_pgamma
+Added GitHub Actions: R CMD check on Linux (JAGS 4 and 5), Windows and macOS, and a release workflow that builds and checks the CRAN tarball for each version tag
 Version 0.1.7
 Added compatibility and removed version retrictions for JAGS 5.0.0
 Version 0.1.4

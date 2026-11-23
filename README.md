@@ -1,5 +1,8 @@
 # neojags
 
+[![R-CMD-check](https://github.com/madsyair/neojags/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/madsyair/neojags/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/neojags)](https://cran.r-project.org/package=neojags)
+
 **neojags** is an R package that serves as a *JAGS extension module*, providing a family of "neo-normal" distributions for use in Bayesian models. JAGS (Just Another Gibbs Sampler) is a popular engine for Markov Chain Monte Carlo (MCMC) sampling, and `neojags` extends JAGS by adding several flexible distributions that relax the assumptions of normality (allowing for skewness and heavy tails). These distributions can be used as priors or likelihoods in JAGS models to better fit data that exhibit skewed or heavy-tailed behavior. The package is useful in situations where a standard Normal or t-distribution is too restrictive, offering more flexibility in modeling data.
 
 `neojags` is available on both [CRAN](https://cran.r-project.org/package=neojags) and [GitHub](https://github.com/madsyair/neojags). It was developed by Achmad Syahrul Choir *et al.* as part of research on neo-normal distributions for robust statistical modeling. The module works with **JAGS version 4.3.0 or higher**, so make sure you have a compatible JAGS installation.
